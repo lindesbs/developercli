@@ -1,0 +1,24 @@
+parameters:
+  developerCLI.basePath: 'development'
+
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+    public: true
+
+    bind:
+      $basePath: '%developerCLI.basePath%'
+
+
+  lindesbs\DeveloperCLI\:
+    resource: './*'
+    exclude: './{DependencyInjection,Entity,Migrations}'
+
+  lindesbs\DeveloperCLI\Command\:
+    resource: '../../Command/*'
+
+  lindesbs\DeveloperCLI\Service\:
+    resource: '../../Service/*'
+
+
