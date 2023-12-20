@@ -2,20 +2,15 @@
 
 namespace lindesbs\DeveloperCLI\Service;
 
-use Symfony\Component\Console\Output\OutputInterface;
+use lindesbs\DeveloperCLI\DTO\ModuleConfigDTO;
 
 class ModuleInspect
 {
-    public function __construct(
-        private readonly string $basePath
-    )
+    public function check(ModuleConfigDTO $moduleConfig)
     {
+        $moduleConfig->io->section('Checks');
 
-    }
-
-    public function check()
-    {
-        dump($this->basePath);
+        $moduleConfig->io->writeln($moduleConfig->basePath);
     }
 
 }

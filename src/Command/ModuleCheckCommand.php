@@ -2,13 +2,14 @@
 
 namespace lindesbs\DeveloperCLI\Command;
 
+use lindesbs\DeveloperCLI\DTO\ModuleConfigDTO;
 use lindesbs\DeveloperCLI\Service\ModuleInspect;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(name: 'developercli:inspect:module')]
 class ModuleCheckCommand extends Command
@@ -16,7 +17,7 @@ class ModuleCheckCommand extends Command
 
     public function __construct(
         private readonly ModuleInspect $moduleInspect,
-        private readonly string $basePath
+        private string $basePath
     )
     {
 parent::__construct();
@@ -37,9 +38,15 @@ parent::__construct();
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        if ($input->getOption('basePath'))
+            $this->basePath = $input->getOption('basePath');
 
-        $output->writeln($this->basePath);
-        $this->moduleInspect->check();
+        $moduleConfig = new ModuleConfigDTO(
+            io: new SymfonyStyle($input, $output),
+            basePath: $this->basePath
+        );
+
+        $this->moduleInspect->check($moduleConfig);
 
         return COMMAND::SUCCESS;
     }
