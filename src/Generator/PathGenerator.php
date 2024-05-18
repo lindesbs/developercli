@@ -5,4 +5,5 @@ namespace lindesbs\DeveloperCLI\Generator;
 class PathGenerator
 {
 
+
 }
